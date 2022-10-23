@@ -38,7 +38,8 @@ ioctl$BINDER_GET_FROZEN_INFO(fd fd_binder, cmd const[BINDER_GET_FROZEN_INFO], ar
 ioctl$BINDER_ENABLE_ONEWAY_SPAM_DETECTION(fd fd_binder, cmd const[BINDER_ENABLE_ONEWAY_SPAM_DETECTION], arg ptr[in, bool32])
 ioctl$BINDER_GET_EXTENDED_ERROR(fd fd_binder, cmd const[BINDER_GET_EXTENDED_ERROR], arg ptr[out, binder_extended_error])
 
-openat$binder_debug(fd const[AT_FDCWD], file ptr[in, string[binder_debug_file]], flags const[O_RDONLY], mode const[0]) fd
+openat$binder_debug(fd const[AT_FDCWD], file ptr[in, string[binder_debug_file]], flags const[O_RDONLY], mode const[0]) f
+binder_node_release(arg ptr[in, binder_node], ref int32 )
 
 binder_debug_file = "/sys/kernel/debug/binder/failed_transaction_log", "/sys/kernel/debug/binder/state", "/sys/kernel/debug/binder/stats", "/sys/kernel/debug/binder/transaction_log", "/sys/kernel/debug/binder/transactions"
 
