@@ -37,6 +37,12 @@
 #define __thread __declspec(thread)
 #endif
 
+#if GOOS_openbsd
+#define MUTABLE __attribute__((section(".openbsd.mutable")))
+#else
+#define MUTABLE
+#endif
+
 #ifndef GIT_REVISION
 #define GIT_REVISION "unknown"
 #endif
@@ -220,8 +226,7 @@ static int running;
 uint32 completed;
 bool is_kernel_64_bit = true;
 
-ALIGNED(INPUT_DATA_ALIGNMENT)
-static char input_data[kMaxInput];
+MUTABLE ALIGNED(INPUT_DATA_ALIGNMENT) static char input_data[kMaxInput];
 
 // Checksum kinds.
 static const uint64 arg_csum_inet = 0;
@@ -460,8 +465,9 @@ int main(int argc, char** argv)
 	current_thread = &threads[0];
 
 #if SYZ_EXECUTOR_USES_SHMEM
-	if (mmap(&input_data[0], kMaxInput, PROT_READ, MAP_PRIVATE | MAP_FIXED, kInFd, 0) != &input_data[0])
-		fail("mmap of input file failed");
+	void* got = mmap(&input_data[0], kMaxInput, PROT_READ, MAP_PRIVATE | MAP_FIXED, kInFd, 0);
+	if (&input_data[0] != got)
+		failmsg("mmap of input file failed", "want %p, got %p", &input_data[0], got);
 
 	mmap_output(kInitialOutput);
 	// Prevent test programs to mess with these fds.
@@ -580,7 +586,7 @@ static void mmap_output(int size)
 	void* result = mmap(mmap_at, size - output_size,
 			    PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, kOutFd, output_size);
 	if (result != mmap_at)
-		fail("mmap of output file failed");
+		failmsg("mmap of output file failed", "want %p, got %p", mmap_at, result);
 	output_size = size;
 }
 #endif
