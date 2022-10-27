@@ -836,6 +836,7 @@ __NR_ustat = 62, amd64:136, arm64:riscv64:???, mips64le:5133
 __NR_utime = 30, amd64:132, arm:arm64:riscv64:???, mips64le:5130
 __NR_utimensat = 88, 386:320, amd64:280, arm:348, mips64le:5275, ppc64le:304, s390x:315
 __NR_utimes = 386:271, amd64:235, arm:269, arm64:riscv64:???, mips64le:5226, ppc64le:251, s390x:313
+__NR_vhangup = 111, amd64:153, arm64:riscv64:58, mips64le:5150
 __NR_vmsplice = 75, 386:316, amd64:278, arm:343, mips64le:5266, ppc64le:285, s390x:309
 __NR_wait4 = 114, amd64:61, arm64:riscv64:260, mips64le:5059
 __NR_waitid = 95, 386:284, amd64:247, arm:280, mips64le:5237, ppc64le:272, s390x:281

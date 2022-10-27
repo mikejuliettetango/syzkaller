@@ -511,7 +511,7 @@ sched_setattr(pid pid, attr ptr[in, sched_attr], flags const[0])
 sched_yield()
 getrandom(buf buffer[out], len len[buf], flags flags[getrandom_flags])
 getcpu(cpu ptr[in, int64], node ptr[in, int64])
-vhangup(void)
+vhangup()
 
 membarrier(cmd flags[membarrier_cmd], flags const[0])
 
