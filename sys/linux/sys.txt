@@ -8,6 +8,7 @@ include <linux/socket.h>
 include <linux/ptrace.h>
 include <linux/resource.h>
 include <linux/stat.h>
+include <linux/types.h>
 include <linux/mman.h>
 include <linux/time.h>
 include <linux/mount.h>
@@ -517,6 +518,8 @@ sched_getattr(pid pid, attr ptr[out, sched_attr], size len[attr], flags const[0]
 sched_setattr(pid pid, attr ptr[in, sched_attr], flags const[0])
 sched_yield()
 getrandom(buf buffer[out], len len[buf], flags flags[getrandom_flags])
+getcpu(cpu ptr[in, int64], node ptr[in, int64])
+umask(mode_t flags [open_mode])
 getcpu(cpu ptr[in, int64], node ptr[in, int64])
 vhangup()
 
