@@ -520,7 +520,6 @@ sched_yield()
 getrandom(buf buffer[out], len len[buf], flags flags[getrandom_flags])
 getcpu(cpu ptr[in, int64], node ptr[in, int64])
 umask(mode_t flags [open_mode])
-getcpu(cpu ptr[in, int64], node ptr[in, int64])
 vhangup()
 
 membarrier(cmd flags[membarrier_cmd], flags const[0])
