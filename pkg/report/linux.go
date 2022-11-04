@@ -1039,6 +1039,7 @@ var linuxStackParams = &stackParams{
 		"report_bug",
 		"fixup_bug",
 		"print_report",
+		"print_usage_bug",
 		"do_error",
 		"invalid_op",
 		"_trap",
@@ -1089,10 +1090,9 @@ var linuxStackParams = &stackParams{
 		"down_trylock",
 		"up_read",
 		"up_write",
-		"mutex_lock",
-		"mutex_trylock",
-		"mutex_unlock",
-		"mutex_remove_waiter",
+		"^mutex_",
+		"^__mutex_",
+		"owner_on_cpu",
 		"osq_lock",
 		"osq_unlock",
 		"atomic(64)?_(dec|inc|read|set|or|xor|and|add|sub|fetch|xchg|cmpxchg|try)",
@@ -1708,7 +1708,13 @@ var linuxOopses = append([]*oops{
 			{
 				title:  compile("WARNING: inconsistent lock state"),
 				report: compile("WARNING: inconsistent lock state(?:.*\\n)+?.*takes(?:.*\\n)+?.*at: (?:{{PC}} +)?{{FUNC}}"),
-				fmt:    "inconsistent lock state in %[1]v",
+				fmt:    "inconsistent lock state in %[2]v",
+				stack: &stackFmt{
+					parts: []*regexp.Regexp{
+						linuxCallTrace,
+						parseStackTrace,
+					},
+				},
 			},
 			{
 				title:  compile("WARNING: suspicious RCU usage"),
