@@ -52,7 +52,8 @@ openat$binder_debug(fd const[AT_FDCWD], file ptr[in, string[binder_debug_file]],
 fstatfs$binder(fd fd_binder, buf buffer[out])
 ioctl$BINDER_SET_IDLE_TIMEOUT(fd fd_binder, cmd const[BINDER_SET_IDLE_TIMEOUT], arg ptr[in, int32])
  
-
+close$binder(fd int32)
+close$binder_release(fd const[0])
 
 
 binder_debug_file = "/sys/kernel/debug/binder/failed_transaction_log", "/sys/kernel/debug/binder/state", "/sys/kernel/debug/binder/stats", "/sys/kernel/debug/binder/transaction_log", "/sys/kernel/debug/binder/transactions"
