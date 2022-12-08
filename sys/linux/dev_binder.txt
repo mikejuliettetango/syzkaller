@@ -10,6 +10,8 @@
 include <linux/android/binder.h>
 include <linux/fcntl.h>
 include <linux/stat.h>
+include <linux/mman.h>
+include <linux/close_range.h>
 include <poll.h>
 
 resource fd_binder[fd]
@@ -34,6 +36,8 @@ mmap$binder_general_flags(addr vma, len len[addr], prot flags[binder_prot_flags]
 
 ppoll$binder(fds ptr[inout, binder_pollfd], nfds_t const[1], tmo_p ptr[inout, binder_timespec], sigmask const[NULL])
 
+ioctl$BINDER_SET_IDLE_TIMEOUT(fd fd_binder, cmd const[BINDER_SET_IDLE_TIMEOUT], arg ptr[in, int32])
+
 ioctl$BINDER_SET_MAX_THREADS(fd fd_binder, cmd const[BINDER_SET_MAX_THREADS], arg ptr[in, int32])
 ioctl$BINDER_SET_CONTEXT_MGR(fd fd_binder, cmd const[BINDER_SET_CONTEXT_MGR], arg const[0])
 ioctl$BINDER_SET_CONTEXT_MGR_EXT(fd fd_binder, cmd const[BINDER_SET_CONTEXT_MGR_EXT], arg ptr[in, flat_binder_object_t[BINDER_TYPE_BINDER, binder_node]])
@@ -41,7 +45,7 @@ ioctl$BINDER_THREAD_EXIT(fd fd_binder, cmd const[BINDER_THREAD_EXIT], arg const[
 ioctl$BINDER_GET_NODE_DEBUG_INFO(fd fd_binder, cmd const[BINDER_GET_NODE_DEBUG_INFO], arg ptr[inout, binder_node_debug_info])
 ioctl$BINDER_WRITE_READ(fd fd_binder, cmd const[BINDER_WRITE_READ], arg ptr[in, binder_write_read])
 ioctl$BINDER_GET_NODE_INFO_FOR_REF(fd fd_binder, cmd const[BINDER_GET_NODE_INFO_FOR_REF], arg ptr[in, binder_node_info_for_ref])
-ioctl$BINDER_FREEZE(fd fd_binder, cmd const[BINDER_FREEZE], arg ptr[in, binder_freeze_info]) 
+ioctl$BINDER_FREEZE(fd fd_binder, cmd const[BINDER_FREEZE], arg ptr[in, binder_freeze_info])
 ioctl$BINDER_GET_FROZEN_INFO(fd fd_binder, cmd const[BINDER_GET_FROZEN_INFO], arg ptr[in, binder_frozen_status_info])
 ioctl$BINDER_ENABLE_ONEWAY_SPAM_DETECTION(fd fd_binder, cmd const[BINDER_ENABLE_ONEWAY_SPAM_DETECTION], arg ptr[in, bool32])
 ioctl$BINDER_GET_EXTENDED_ERROR(fd fd_binder, cmd const[BINDER_GET_EXTENDED_ERROR], arg ptr[out, binder_extended_error])
@@ -51,7 +55,22 @@ fstatfs$binder(fd fd_binder, buf buffer[out])
 openat$binder_debug(fd const[AT_FDCWD], file ptr[in, string[binder_debug_file]], flags const[O_RDONLY], mode const[0]) fd
 fstatfs$binder(fd fd_binder, buf buffer[out])
 ioctl$BINDER_SET_IDLE_TIMEOUT(fd fd_binder, cmd const[BINDER_SET_IDLE_TIMEOUT], arg ptr[in, int32])
- 
+
+close$binder(fd int32)
+
+close$binder_range(fd int32, max_fd int32, flags flags[close_range_flags])
+
+fallocate$binder(fd int32, mode flags[fallocate_mode], off intptr, len intptr)
+
+flock$binder(fd int32, op flags[flock_op])
+
+fsync$binder(fd int32)
+
+dup$binder(oldfd fd_binder) fd_binder
+dup2$binder(oldfd fd_binder, newfd fd_binder) fd_binder
+dup3$binder(oldfd fd_binder, newfd fd_binder, flags flags[dup_flags]) fd_binder
+
+
 close$binder(fd int32)
 close$binder_release(fd const[0])
 
@@ -84,7 +103,7 @@ binder_freeze_info {
 }
 
 binder_version {
-	protocol_version const[0, int32]
+	protocol_version	const[0, int32]
 }
 
 binder_frozen_status_info {
